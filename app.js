@@ -7,7 +7,6 @@ var logger = require('morgan');
 
 // 导入路由中间件
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 // 创建express实例
 var app = express();
@@ -35,8 +34,7 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'uploadFiles')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/scenic', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
