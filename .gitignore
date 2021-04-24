@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
+/uploadFiles/tmp/*
+/uploadFiles/file/*
 # local env files
 .env.local
 .env.*.local
