@@ -32,6 +32,11 @@ function timestampToTime (timestamp) {
   return Y + M + D;
 }
 
+// 将时间转化为时间戳
+function timeTotimestamp (time) {
+  var timestamp = Date.parse(new Date(time));
+  return timestamp
+}
 // 用户
 var user = {
   // 登录
@@ -361,7 +366,7 @@ var parking = {
     param.id = new Date().getTime();
     console.log(param)
     pool.getConnection(function (err, connection) {
-      connection.query(sql.parkingAppoint, ["" + param.id + "", param.carNum, 1, 1, param.parkingStartTime + ':00', param.parkingEndTime + ':00'], function (err, result) {
+      connection.query(sql.parkingAppoint, ["" + param.id + "", param.carNum, param.area, null, param.parkingStartTime + ':00', param.parkingEndTime + ':00', param.uTel], function (err, result) {
         if (result) {
           result = 'success'
         }
@@ -441,7 +446,8 @@ var buy = {
   post: function (req, res, next) {
     var param = req.body;
     param.id = new Date().getTime();
-    param.status = timestampToTime(param.id) >= param.selectPlayDate ? 2 : 1
+    param.status = param.id >= timeTotimestamp(param.selectPlayDate) ? 2 : 1
+    console.log(param.id, timeTotimestamp(param.selectPlayDate));
     console.log(timestampToTime(param.id))
     console.log(param.selectPlayDate)
     console.log(param.status)
