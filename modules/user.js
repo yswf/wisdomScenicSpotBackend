@@ -17,6 +17,10 @@ var sql = require('./sql');
 var json = require('./json');
 var fs = require('fs');
 var globalObj = require('../config')
+//引入token
+const Token = require('./jwt')
+// 密码加密
+const crypto = require('crypto')
 // 使用连接池，提升性能
 var pool = mysql.createPool(poolextend({}, mysqlconfig));
 
@@ -49,13 +53,19 @@ var user = {
         if (result.length == 0) { // 未注册
           result = undefined
         } else {
-          if (resultArray.password === param.password) { // 密码正确
+          const password = crypto.createHmac('md5', 'wangfan').update(param.password).digest('hex');
+          console.log(password);
+          if (resultArray.password === password) { // 密码正确
+            const token = Token.encrypt({ id: param.tel }, '1d');  //将user.id加密，设置有效期1天，返回token
+            console.log(token);
             result = 'login'
+            json(res, result, token);
           } else { // 密码错误
             result = 'wrong'
+            json(res, result, null);
           }
         }
-        json(res, result);
+        // json(res, result,null);
         // 释放连接
         connection.release();
       });
@@ -67,7 +77,7 @@ var user = {
       var param = req.query;
       connection.query(sql.userSelect, param.tel, function (err, result) {
         console.log(result)
-        json(res, result[0]);
+        json(res, result[0], null);
         // 释放连接
         connection.release();
       });
@@ -81,16 +91,15 @@ var user = {
       connection.query(sql.userSelect, param.tel, function (err, result) {
         if (result.length != 0) { // 已经注册
           result = 'alreadyRegister'
-          json(res, result);
+          json(res, result, null);
         } else {
-          connection.query(sql.userInsert, [param.id, param.tel, param.password, 1, '小游用户'], function (err, result) {
+          const password = crypto.createHmac('md5', 'wangfan').update(param.password).digest('hex');
+          connection.query(sql.userInsert, [param.id, param.tel, password, 1, '小游用户'], function (err, result) {
             if (result) {
               result = 'register'
             }
             // 以json形式，把操作结果返回给前台页面
-            json(res, result);
-            // 释放连接
-            connection.release();
+            json(res, result, null);
           });
         }
         // 释放连接
@@ -110,7 +119,7 @@ var spots = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -129,7 +138,7 @@ var spots = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -146,7 +155,7 @@ var spots = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -163,7 +172,7 @@ var spots = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -180,7 +189,7 @@ var spots = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -197,7 +206,7 @@ var activityInfo = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -211,7 +220,7 @@ var activityInfo = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -228,7 +237,7 @@ var activityInfo = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -243,7 +252,7 @@ var activityInfo = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -259,7 +268,7 @@ var activityInfo = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -276,7 +285,7 @@ var ticket = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -289,7 +298,7 @@ var ticket = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -302,7 +311,7 @@ var ticket = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -319,7 +328,7 @@ var ticket = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -336,7 +345,7 @@ var ticket = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -351,7 +360,7 @@ var ticket = {
         // if (result==undefined) { 
         //     result = 'notData'
         // } 
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -370,7 +379,7 @@ var parking = {
         if (result) {
           result = 'success'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -384,7 +393,7 @@ var parking = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -433,7 +442,7 @@ var parking = {
           results.push(obj)
         });
         console.log(results)
-        json(res, results);
+        json(res, results, null);
         // 释放连接
         connection.release();
       });
@@ -457,7 +466,7 @@ var buy = {
         if (result) {
           result = 'success'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -470,7 +479,7 @@ var buy = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
@@ -488,7 +497,7 @@ var buy = {
         if (result == undefined) {
           result = 'notData'
         }
-        json(res, result);
+        json(res, result, null);
         // 释放连接
         connection.release();
       });
