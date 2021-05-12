@@ -37,84 +37,84 @@ router.get('/findActivity', function (req, res, next) {
 // ---------------------以来信息需要token验证----------
 // 个人信息
 router.get('/userCenter', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && user.userCenter(req, res, next);
+  verificationToken(res, req.headers.authorization) && user.userCenter(req, res, next);
 });
 
 // 新增景点信息
 router.post('/spot', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && spots.post(req, res, next);
+  verificationToken(res, req.headers.authorization) && spots.post(req, res, next);
 });
 // 更新景点信息
 router.post('/updateSpot', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && spots.update(req, res, next);
+  verificationToken(res, req.headers.authorization) && spots.update(req, res, next);
 });
 // 删除景点信息
 router.post('/deleteSpot', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && spots.delete(req, res, next);
+  verificationToken(res, req.headers.authorization) && spots.delete(req, res, next);
 });
 
 // 新增活动资讯
 router.post('/activity', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && activityInfo.post(req, res, next);
+  verificationToken(res, req.headers.authorization) && activityInfo.post(req, res, next);
 });
 // 更新活动资讯
 router.post('/updateActivity', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && activityInfo.update(req, res, next);
+  verificationToken(res, req.headers.authorization) && activityInfo.update(req, res, next);
 });
 // 删除活动资讯
 router.post('/deleteActivity', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && activityInfo.delete(req, res, next);
+  verificationToken(res, req.headers.authorization) && activityInfo.delete(req, res, next);
 });
 
 // 获取电子门票
 router.get('/tickets', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && ticket.get(req, res, next);
+  verificationToken(res, req.headers.authorization) && ticket.get(req, res, next);
 });
 // 通过id获取电子门票
 router.get('/findTicketById', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && ticket.findTicketById(req, res, next);
+  verificationToken(res, req.headers.authorization) && ticket.findTicketById(req, res, next);
 });
 // 通过关键字获取电子门票
 router.get('/findTicket', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && ticket.findTicket(req, res, next);
+  verificationToken(res, req.headers.authorization) && ticket.findTicket(req, res, next);
 });
 // 新增电子门票
 router.post('/ticket', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && ticket.post(req, res, next);
+  verificationToken(res, req.headers.authorization) && ticket.post(req, res, next);
 });
 // 更新电子门票
 router.post('/updateTicket', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && ticket.update(req, res, next);
+  verificationToken(res, req.headers.authorization) && ticket.update(req, res, next);
 });
 // 删除活动资讯
 router.post('/deleteTicket', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && ticket.delete(req, res, next);
+  verificationToken(res, req.headers.authorization) && ticket.delete(req, res, next);
 });
 
 // 预约停车
 router.post('/parking', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && parking.post(req, res, next);
+  verificationToken(res, req.headers.authorization) && parking.post(req, res, next);
 });
 // 通过用户ID获取停车信息
 router.get('/parkingSelect', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && parking.get(req, res, next);
+  verificationToken(res, req.headers.authorization) && parking.get(req, res, next);
 });
 // 通过区域获取停车信息
 router.get('/parkingByArea', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && parking.parkingByArea(req, res, next);
+  verificationToken(res, req.headers.authorization) && parking.parkingByArea(req, res, next);
 });
 
 // 线上购票
 router.post('/buy', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && buy.post(req, res, next);
+  verificationToken(res, req.headers.authorization) && buy.post(req, res, next);
 });
 // 通过用户ID获取购票信息
 router.get('/buyList', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && buy.get(req, res, next);
+  verificationToken(res, req.headers.authorization) && buy.get(req, res, next);
 });
 // 通过搜索获取购票信息
 router.get('/buySearch', function (req, res, next) {
-  verificationToken(res, req.body.Authorization) && buy.buySearch(req, res, next);
+  verificationToken(res, req.headers.authorization) && buy.buySearch(req, res, next);
 });
 
 // 文件上传
