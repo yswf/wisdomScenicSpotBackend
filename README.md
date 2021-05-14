@@ -1,2 +1,2 @@
 # wisdomScenicSpotBackend
-毕业设计智慧景区之服务端——wisdomScenicSpotBackend
+毕业设计红枫湖景区管理平台之服务端——wisdomScenicSpotBackend

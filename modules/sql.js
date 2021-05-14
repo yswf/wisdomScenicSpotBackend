@@ -24,7 +24,7 @@ var user = {
   parkingSelect: 'select * from parking WHERE uTel=?',
   parkingByArea: 'select * from parking WHERE area=?',
 
-  buyAdd: 'INSERT INTO buy(id,selectPlayDate,number, ticketPay,ticketId,uTel,status) VALUES(?,?,?,?,?,?,?)',
+  buyAdd: 'INSERT INTO buy(id,selectPlayDate,number, ticketPay,ticketId,uTel,status,idName,idNum) VALUES ?',
   buySelect: 'select * from buy WHERE uTel=?',
   buySearch: 'select * from buy',
 

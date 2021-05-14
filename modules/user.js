@@ -456,13 +456,20 @@ var buy = {
     var param = req.body;
     param.id = new Date().getTime();
     param.status = param.id >= timeTotimestamp(param.selectPlayDate) ? 2 : 1
-    console.log(param.id, timeTotimestamp(param.selectPlayDate));
-    console.log(timestampToTime(param.id))
-    console.log(param.selectPlayDate)
-    console.log(param.status)
-    console.log(param)
+    // console.log(param.id, timeTotimestamp(param.selectPlayDate));
+    // console.log(timestampToTime(param.id))
+    // console.log(param.selectPlayDate)
+    // console.log(param.status)
+    const peoples = JSON.parse(param.peoples)
+    let sqlList = []
+    for (let i = 0; i < peoples.length; i++) {
+      let sqlItem = ["" + param.id + "", peoples[i].selectPlayDate || param.selectPlayDate, '1', peoples[i].money, '' + peoples[i].ticketType, param.uTel, param.status, peoples[i].name, peoples[i].idCard]
+      sqlList.push(sqlItem)
+    }
+    console.log(sqlList);
     pool.getConnection(function (err, connection) {
-      connection.query(sql.buyAdd, ["" + param.id + "", param.selectPlayDate, param.number, param.ticketPay, param.ticketId, param.uTel, param.status], function (err, result) {
+      connection.query(sql.buyAdd, [sqlList], function (err, result) {
+        // console.log(err);
         if (result) {
           result = 'success'
         }
